@@ -30,9 +30,6 @@ Haskell 优化手册
    :titlesonly:
 
    src/zh-cn/Preliminaries/index
-   .. src/Measurement_Observation/index
-   .. src/Optimizations/index
-   .. src/Case_Studies/index
 
 
 Indices and tables
