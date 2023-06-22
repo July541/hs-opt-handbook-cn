@@ -21,3 +21,4 @@ jobs:
           folder: _build/html
           repository-name: July541/July541.github.io
           target-folder: hoh
+          token: ${{ secrets.TOKEN }}
