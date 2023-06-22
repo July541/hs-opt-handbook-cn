@@ -17,7 +17,7 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
-          branch: deploy
+          branch: master
           folder: _build/html
           repository-name: July541/July541.github.io
           target-folder: hoh
