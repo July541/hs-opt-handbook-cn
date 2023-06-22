@@ -19,6 +19,22 @@ Haskell Optimization Handbook
    src/Case_Studies/index
 
 
+Haskell 优化手册
+==================
+
+.. toctree::
+   :maxdepth: 3
+   :caption: 目录
+   :name: mastertoccn
+   :numbered:
+   :titlesonly:
+
+   src/zh-cn/Preliminaries/index
+   .. src/Measurement_Observation/index
+   .. src/Optimizations/index
+   .. src/Case_Studies/index
+
+
 Indices and tables
 ==================
 
