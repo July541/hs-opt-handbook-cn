@@ -5,19 +5,18 @@ for free, by the following people. We hope you have gotten something---an
 answer, some knowledge, curiosity or entertainment---from it, and please say so
 if you have!
 
-..
-   Variables. Please add the contributor as a variable even if they will only be
-   represented once (they might do another contribution!).
-.. |doyougnu| replace:: Jeffrey young (@doyougnu)
-
 Writers:
 
-- |doyougnu|
+- Jeffrey Young `@doyougnu <https://github.com/doyougnu>`_
 
 Editors:
 
-- |doyougnu|
+- Jeffrey Young `@doyougnu <https://github.com/doyougnu>`_
 
 Reviewers:
 
-- |doyougnu|
+- Jeffrey Young `@doyougnu <https://github.com/doyougnu>`_
+- Sylvain Henry `@hsyl20 <https://hsyl20.fr/home/>`_
+- Frank Staals  `@noinia <https://fstaals.net/>`_
+- Andrew Lelechenko `@bodigrim <https://github.com/Bodigrim>`_
+- Ben Siraphob `@siraben <https://siraben.dev>`_

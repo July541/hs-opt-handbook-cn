@@ -30,7 +30,7 @@ optimization rabbit hole. If you have no code to optimize, then you may consider
 picking your favorite Haskell library and attempting to optimize that!
 
 
-The book assumes you are using ``GHC 8.10.x`` and a Linux distribution (kernel
+The book assumes you are using GHC |ghcVersion| and a Linux distribution (kernel
 version ``5.8`` and higher). Should you be using an older compiler than some
 sections, such as :doc:`Using EventLog
 </src/Measurement_Observation/Heap_Ghc/eventlog>`; which arrived in ``GHC 8.8``
@@ -50,8 +50,12 @@ discourse:
 
 1. :math:`\perp` to mean the *bottom* value
 2. :math:`Foo[x \rightarrow e]` to mean the result of substituting :math:`e` for
-   :math:`x` in :math:`Foo`.
-3. :math:`\mathcal{O}(n\log{}n)` to mean the minimum bound time complexity of an algorithm is :math:`n\log{}n`
+   :math:`x` in :math:`Foo`, and
+3. Big-O notation: :math:`\mathcal{O}(n\log{}n)`, to mean the asymptotic running
+   times of algorithms. In particular, if an algorithm takes
+   :math:`\mathcal{O}(n \log{} n)` time, then it can process any set of
+   :math:`n` input items in at most :math:`c*n \log{} n` time, for some fixed
+   constant :math:`c`.
 
 Where to Begin
 --------------
@@ -59,7 +63,7 @@ Where to Begin
 The book is structured into discrete independent parts to better serve as a
 handbook. Thus, the book is not meant to be read in a linear order. Instead, one
 should pick and choose which chapter to read next based on their needs because
-*The book assumes you have a problem that needs solving*.
+*the book assumes you have a problem that needs solving*.
 
 There are two general sections; both are ordered from the least time consuming
 to most time consuming topics. The first section, Part 1, aids the developer in

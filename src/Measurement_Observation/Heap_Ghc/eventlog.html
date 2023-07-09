@@ -20,6 +20,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
       
       <!-- bundled in js (rollup iife) -->
@@ -28,7 +29,7 @@
     
   <link rel="index" title="Index" href="../../../genindex.html" />
   <link rel="search" title="Search" href="../../../search.html" />
-  <link rel="next" title="2.2.3. GHC Debug" href="ghc_debug.html" />
+  <link rel="next" title="2.2.3. Info-Table Profiling" href="info_table.html" />
   <link rel="prev" title="2.2.1. GHC Flags" href="ghc_flags.html" /> 
   </head>
 
@@ -44,6 +45,22 @@
   <div class="links">
     <navlinks class="can-hide">
 
+  
+    <div class="nav-item">
+      <a href="../../../contents.html#haskell-optimization-handbook"
+         class="nav-link ">
+         Table of Contents
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../../../contents.html#indices-and-tables"
+         class="nav-link ">
+         indices and tables
+      </a>
+    </div>
+  
+
 
 
     </navlinks>
@@ -57,6 +74,22 @@
           
           <navlinks>
             
+
+  
+    <div class="nav-item">
+      <a href="../../../contents.html#haskell-optimization-handbook"
+         class="nav-link ">
+         Table of Contents
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../../../contents.html#indices-and-tables"
+         class="nav-link ">
+         indices and tables
+      </a>
+    </div>
+  
 
 
 
@@ -107,6 +140,33 @@
           </li>
 
         
+          <li class="toctree-l1 ">
+            
+              <a href="../../Case_Studies/index.html" class="reference internal ">Case Studies</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../contents.html#indices-and-tables">indices and tables</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../../glossary.html" class="reference internal ">Glossary</a>
+            
+
+            
+          </li>
+
+        
       </ul>
     </div>
   
@@ -133,8 +193,8 @@
        title="previous chapter">← <span class="section-number">2.2.1. </span><span class="lightgrey">GHC Flags</span></a>
   </li>
   <li class="next">
-    <a href="ghc_debug.html"
-       title="next chapter"><span class="section-number">2.2.3. </span><span class="lightgrey">GHC Debug</span> →</a>
+    <a href="info_table.html"
+       title="next chapter"><span class="section-number">2.2.3. </span><span class="lightgrey">Info-Table Profiling</span> →</a>
   </li>
 </ul>
   
@@ -144,23 +204,23 @@
             
   <span class="target" id="eventlog-chapter"></span><section id="eventlog">
 <h1><span class="section-number">2.2.2. </span>Eventlog<a class="headerlink" href="#eventlog" title="Permalink to this heading">¶</a></h1>
-<p><a class="reference external" href="https://downloads.haskell.org/ghc/latest/docs/users_guide/runtime_control.html#rts-eventlog">Eventlog</a>
-is a GHC runtime system feature that logs events at runtime of a compiled
-program. It provides runtime information on the heap, the garbage collector, the
-scheduler, and arbitrary events that a user inserts into their own code.
-Eventlog is a versatile profiling tool, and should be one of the first tools in
-the profiling toolbox you reach for. Use eventlog when you are just beginning to
-diagnose the problem and are gathering data. Specifically when you want to
-inspect the heap or some other subsystem, such as the garbage collector. This
-chapter walks through using eventlog to inspect a small program that suffers
-from <span class="xref std std-ref">Excessive Pointer Chasing</span>. By the end of the chapter you should
+<p><a class="reference external" href="https://downloads.haskell.org/~ghc/9.2.4/docs/html/users_guide/runtime_control.html#rts-eventlog">Eventlog</a> is a GHC runtime
+system feature that logs events at runtime of a compiled program. It provides
+runtime information on the heap, the garbage collector, the scheduler, and
+arbitrary events that a user inserts into their own code. Eventlog is a
+versatile profiling tool, and should be one of the first tools in the profiling
+toolbox you reach for. Use eventlog when you are just beginning to diagnose the
+problem and are gathering data. Specifically when you want to inspect the heap
+or some other subsystem, such as the garbage collector. This chapter walks
+through using eventlog to inspect a small program that suffers from
+<a class="reference internal" href="../../Preliminaries/what_makes_fast_hs.html#canonical-pointer-chasing"><span class="std std-ref">Excessive Pointer Chasing</span></a>. By the end of the chapter you should
 understand:</p>
 <ol class="arabic simple">
 <li><p>What information can you retrieve by using eventlog.</p></li>
 <li><p>When to use eventlog.</p></li>
 <li><p>How to build your program to use eventlog.</p></li>
 <li><p>How to visualize eventlog information.</p></li>
-<li><p>How to tune eventlog to inspect specific subsystems.</p></li>
+<li><p>How to tune eventlog to inspect specific sub-system.</p></li>
 <li><p>How to tune eventlog to inspect specific pieces of code.</p></li>
 </ol>
 <section id="requirements">
@@ -173,27 +233,30 @@ Guide</a>. You can also parse the
 <code class="docutils literal notranslate"><span class="pre">&lt;program&gt;.eventlog</span></code> file using the <a class="reference external" href="https://hackage.haskell.org/package/ghc-events">ghc-events</a> library.</p></li>
 </ol>
 </section>
+<section id="restrictions">
+<h2><span class="section-number">2.2.2.2. </span>Restrictions<a class="headerlink" href="#restrictions" title="Permalink to this heading">¶</a></h2>
+<p>Eventlog is portable, and should work anywhere GHC’s native runtime system will work.</p>
+</section>
 <section id="what-information-do-i-receive-from-eventlog">
-<h2><span class="section-number">2.2.2.2. </span>What Information Do I Receive From Eventlog?<a class="headerlink" href="#what-information-do-i-receive-from-eventlog" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.3. </span>What Information Do I Receive From Eventlog?<a class="headerlink" href="#what-information-do-i-receive-from-eventlog" title="Permalink to this heading">¶</a></h2>
 <p>Eventlog logs events as a function of elapsed walltime. A full list of possible
 events is available in <a class="reference external" href="https://downloads.haskell.org/~ghc/9.2.4/docs/html/users_guide/runtime_control.html#rts-eventlog">GHC User’s Guide</a>. In general, the most common use case is to
 track heap events; which will be the focus of this chapter. However, a user may
 define and track their own events using the base functions <a class="reference external" href="https://downloads.haskell.org/~ghc/9.2.4/docs/html/libraries/base-4.16.3.0/Debug-Trace.html#v:traceMarker">traceEvent</a>.</p>
 </section>
 <section id="when-should-i-use-eventlog">
-<h2><span class="section-number">2.2.2.3. </span>When should I use Eventlog<a class="headerlink" href="#when-should-i-use-eventlog" title="Permalink to this heading">¶</a></h2>
-<p>Eventlog is most useful when you need to <span class="xref std std-ref">Characterize the Problem</span>. It
-yields runtime information on the specific subsystems the program relies on.
-Thus, it allows you to drill down into the behavior of the garbage collector,
-the scheduler, the heap and so. For example, using the flag <code class="docutils literal notranslate"><span class="pre">+RTS</span> <span class="pre">-lg</span></code> you can
-collect the <code class="docutils literal notranslate"><span class="pre">CONC_MARK_BEGIN</span></code> and <code class="docutils literal notranslate"><span class="pre">CONC_MARK_END</span></code> events which log the
-beginning and end of the concurrent garbage collectors marking phase. Similarly,
-you can collect <code class="docutils literal notranslate"><span class="pre">MEM_RETURN</span></code> which provides information about the current
-allocation of megablocks, attempts to return them to the operating system, and
-heap fragmentation.</p>
+<h2><span class="section-number">2.2.2.4. </span>When should I use Eventlog<a class="headerlink" href="#when-should-i-use-eventlog" title="Permalink to this heading">¶</a></h2>
+<p>Eventlog is most useful when you need to <a class="reference internal" href="../the_recipe.html#characterize-the-problem"><span class="std std-ref">Characterize the Problem</span></a>. It yields runtime information on the specific
+sub-system the program relies on. Thus, it allows you to drill down into the
+behavior of the garbage collector, the scheduler, the heap and so. For example,
+using the flag <code class="docutils literal notranslate"><span class="pre">+RTS</span> <span class="pre">-lg</span></code> you can collect the <code class="docutils literal notranslate"><span class="pre">CONC_MARK_BEGIN</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CONC_MARK_END</span></code> events which log the beginning and end of the concurrent
+garbage collectors marking phase. Similarly, you can collect <code class="docutils literal notranslate"><span class="pre">MEM_RETURN</span></code>
+which provides information about the current allocation of megablocks, attempts
+to return them to the operating system, and heap fragmentation.</p>
 </section>
 <section id="the-running-example">
-<h2><span class="section-number">2.2.2.4. </span>The Running Example<a class="headerlink" href="#the-running-example" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.5. </span>The Running Example<a class="headerlink" href="#the-running-example" title="Permalink to this heading">¶</a></h2>
 <p>We’ll use a toy program to demonstrate heap profiling with eventlog. Our toy
 program is an example of excessive pointer chasing and should be familiar to
 most Haskellers’ as a traditional example of a memory leak:</p>
@@ -252,7 +315,7 @@ just a value for <code class="docutils literal notranslate"><span class="pre">Do
 with the <code class="docutils literal notranslate"><span class="pre">OPTIONS_GHC</span> <span class="pre">-O0</span></code> pragma.</p>
 </section>
 <section id="the-setup">
-<h2><span class="section-number">2.2.2.5. </span>The Setup<a class="headerlink" href="#the-setup" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.6. </span>The Setup<a class="headerlink" href="#the-setup" title="Permalink to this heading">¶</a></h2>
 <p>Using Eventlog requires three pieces of setup. First, you must build your
 programs with the <code class="docutils literal notranslate"><span class="pre">-eventlog</span> <span class="pre">-rtsopts</span> <span class="pre">-prof</span></code> GHC flags (or alternatively set
 <code class="docutils literal notranslate"><span class="pre">profiling:</span> <span class="pre">True</span></code> in <code class="docutils literal notranslate"><span class="pre">cabal.project</span></code> or enable <code class="docutils literal notranslate"><span class="pre">library-profiling</span></code> and
@@ -286,7 +349,7 @@ and produce a heap profile by biography (<code class="docutils literal notransla
 </ol>
 </section>
 <section id="visualizing-the-heap-eventlog-by-type">
-<h2><span class="section-number">2.2.2.6. </span>Visualizing the Heap: Eventlog by Type<a class="headerlink" href="#visualizing-the-heap-eventlog-by-type" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.7. </span>Visualizing the Heap: Eventlog by Type<a class="headerlink" href="#visualizing-the-heap-eventlog-by-type" title="Permalink to this heading">¶</a></h2>
 <p>To view the heap profile we’ll use <a class="reference external" href="https://mpickering.github.io/eventlog2html/">eventlog2html</a>. To begin we’ll inspect the
 heap by type. Our initial goal is to determine if we have a memory leak and if
 so which type is leaking. Here is the cabal file entry and invocation:</p>
@@ -323,7 +386,7 @@ following heap profile:</p>
 <p>The heap profile is not a static image! Try clicking through the
 interactive output from eventlog2html along with the text.</p>
 </div>
-<p>The heap profile is similar to profiles generated by <span class="xref std std-ref">traditional tools</span> with some notable exceptions. First, this is a more interactive
+<p>The heap profile is similar to profiles generated by <a class="reference internal" href="../../Optimizations/GHC_tech/ghc_flags.html#ghc-flags"><span class="std std-ref">traditional tools</span></a> with some notable exceptions. First, this is a more interactive
 plot; for example, you can hover your mouse over a section of the profile and a
 popup will describe the corresponding description from the legend. You can also
 select an element on the legend to filter the plot to only that element. Second,
@@ -384,7 +447,7 @@ provides an easy way to search and inspect a particular heap object which may be
 buried in noise.</p>
 </section>
 <section id="adding-our-own-events">
-<h2><span class="section-number">2.2.2.7. </span>Adding Our Own Events<a class="headerlink" href="#adding-our-own-events" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.8. </span>Adding Our Own Events<a class="headerlink" href="#adding-our-own-events" title="Permalink to this heading">¶</a></h2>
 <p>Thus far we have seen memory leaks coming from the types <code class="docutils literal notranslate"><span class="pre">Double</span></code> and <code class="docutils literal notranslate"><span class="pre">[]</span></code>,
 but we have not yet distinguished <em>in the profile</em> between <code class="docutils literal notranslate"><span class="pre">lazy_mean</span></code>,
 <code class="docutils literal notranslate"><span class="pre">stricter_mean</span></code>, and <code class="docutils literal notranslate"><span class="pre">strict_mean</span></code>. Consider these functions as different
@@ -655,7 +718,7 @@ this value should remove the memory leak. Our final <code class="docutils litera
 <code class="docutils literal notranslate"><span class="pre">stricter_mean</span></code> validating the lazy tuple hypothesis.</p>
 <iframe id="scaled-frame" src="../../../_static/eventlog/pc_heap_marker_final.html"></iframe></section>
 <section id="summary">
-<h2><span class="section-number">2.2.2.8. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.9. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">¶</a></h2>
 <p>In sum, we’ve demonstrated heap profiling using GHC’s eventlog and
 <a class="reference external" href="https://mpickering.github.io/eventlog2html/">eventlog2html</a>. Eventlog records event specific data produced by GHC as a
 function of walltime. One can embed and emit custom events using the functions
@@ -667,7 +730,7 @@ fixing, and debugging memory leaks or when correlating heap information to a
 particular function or phase of the program.</p>
 </section>
 <section id="references-and-further-reading">
-<h2><span class="section-number">2.2.2.9. </span>References and Further Reading<a class="headerlink" href="#references-and-further-reading" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.2.2.10. </span>References and Further Reading<a class="headerlink" href="#references-and-further-reading" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>The eventlog section in the <a class="reference external" href="https://downloads.haskell.org/~ghc/9.2.4/docs/html/users_guide/runtime_control.html#rts-eventlog">GHC User’s
 Guide</a>.</p></li>
@@ -685,11 +748,11 @@ Guide</a>.</p></li>
        title="previous chapter">← <span class="section-number">2.2.1. </span><span class="lightgrey">GHC Flags</span></a>
   </li>
   <li class="next">
-    <a href="ghc_debug.html"
-       title="next chapter"><span class="section-number">2.2.3. </span><span class="lightgrey">GHC Debug</span> →</a>
+    <a href="info_table.html"
+       title="next chapter"><span class="section-number">2.2.3. </span><span class="lightgrey">Info-Table Profiling</span> →</a>
   </li>
 </ul><div class="footer" role="contentinfo">
-      &#169; Copyright 2022-2022, Jeffrey Young (doyougnu).
+      &#169; Copyright 2022-2023, Jeffrey Young (doyougnu).
     <br>
     Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>

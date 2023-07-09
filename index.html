@@ -20,6 +20,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
       
       <!-- bundled in js (rollup iife) -->
@@ -42,6 +43,22 @@
   <div class="links">
     <navlinks class="can-hide">
 
+  
+    <div class="nav-item">
+      <a href="contents.html#haskell-optimization-handbook"
+         class="nav-link ">
+         Table of Contents
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="contents.html#indices-and-tables"
+         class="nav-link ">
+         indices and tables
+      </a>
+    </div>
+  
+
 
 
     </navlinks>
@@ -55,6 +72,22 @@
           
           <navlinks>
             
+
+  
+    <div class="nav-item">
+      <a href="contents.html#haskell-optimization-handbook"
+         class="nav-link ">
+         Table of Contents
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="contents.html#indices-and-tables"
+         class="nav-link ">
+         indices and tables
+      </a>
+    </div>
+  
 
 
 
@@ -105,6 +138,33 @@
           </li>
 
         
+          <li class="toctree-l1 ">
+            
+              <a href="src/Case_Studies/index.html" class="reference internal ">Case Studies</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="contents.html#indices-and-tables">indices and tables</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="src/glossary.html" class="reference internal ">Glossary</a>
+            
+
+            
+          </li>
+
+        
       </ul>
     </div>
   
@@ -131,7 +191,7 @@
   <section id="haskell-optimization-handbook">
 <h1>Haskell Optimization Handbook<a class="headerlink" href="#haskell-optimization-handbook" title="Permalink to this heading">¶</a></h1>
 <p><em>by Jeffrey M. Young</em></p>
-<p>This book assumes you are using ghc <code class="docutils literal notranslate"><span class="pre">9.2.x</span></code> or above and using the Linux
+<p>This book assumes you are using ghc 9.2.x or above and using the Linux
 operating system. If you are new then the best place to start is the <a class="reference internal" href="src/Preliminaries/how_to_use.html"><span class="doc">How
 to use this book</span></a> chapter. If you are returning
 then feel free to jump to the <a class="reference internal" href="contents.html#mastertoc"><span class="std std-ref">Table of Contents</span></a> and best wishes. It is dangerous
@@ -148,6 +208,30 @@ by <a class="reference external" href="https://iohk.io/">Input Output Global</a>
 <section id="release-history">
 <h2>Release History<a class="headerlink" href="#release-history" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
+<li><p>March/April, 2023</p>
+<ul>
+<li><p><a class="reference internal" href="src/Case_Studies/klister.html#klister-case-study"><span class="std std-ref">Klister Case Study</span></a> first draft finished.</p></li>
+<li><p>Add <a class="reference internal" href="src/Measurement_Observation/Heap_Ghc/info_table.html#ipe-chapter"><span class="std std-ref">Info-Table profiling</span></a> stub.</p></li>
+</ul>
+</li>
+<li><p>February, 2023</p>
+<ul>
+<li><p>Lambda lifting chapter first draft finished.</p></li>
+<li><p>Update <a class="reference external" href="https://github.com/yongrenjie/sphinx-exec-directive">sphinx-exec-directive</a> documentation on
+ways to run Haskell code.</p></li>
+</ul>
+</li>
+<li><p>January, 2023</p>
+<ul>
+<li><p>Patched <a class="reference external" href="https://github.com/yongrenjie/sphinx-exec-directive">sphinx-exec-directive</a> to run Haskell code
+with <code class="docutils literal notranslate"><span class="pre">runghc</span></code>, <code class="docutils literal notranslate"><span class="pre">ghci</span></code> and a <code class="docutils literal notranslate"><span class="pre">cabal</span></code> or <code class="docutils literal notranslate"><span class="pre">stack</span></code> target.</p></li>
+</ul>
+</li>
+<li><p>December, 2022</p>
+<ul>
+<li><p>Weigh chapter first draft finished.</p></li>
+</ul>
+</li>
 <li><p>November, 2022</p>
 <ul>
 <li><p>Eventlog chapter now has interactive heap profiles</p></li>
@@ -176,7 +260,7 @@ by <a class="reference external" href="https://iohk.io/">Input Output Global</a>
           <div class="page-nav">
             <div class="inner"><ul class="page-nav">
 </ul><div class="footer" role="contentinfo">
-      &#169; Copyright 2022-2022, Jeffrey Young (doyougnu).
+      &#169; Copyright 2022-2023, Jeffrey Young (doyougnu).
     <br>
     Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>

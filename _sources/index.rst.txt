@@ -5,7 +5,7 @@ Haskell Optimization Handbook
 *by Jeffrey M. Young*
 
 
-This book assumes you are using ghc ``9.2.x`` or above and using the Linux
+This book assumes you are using ghc |ghcVersion| or above and using the Linux
 operating system. If you are new then the best place to start is the :doc:`How
 to use this book </src/Preliminaries/how_to_use>` chapter. If you are returning
 then feel free to jump to the :ref:`mastertoc` and best wishes. It is dangerous
@@ -25,6 +25,28 @@ by `Input Output Global <https://iohk.io/>`_.
 
 Release History
 ---------------
+
+* March/April, 2023
+
+  * :ref:`Klister Case Study <klister case study>` first draft finished.
+  * Add :ref:`Info-Table profiling <IPE chapter>` stub.
+
+* February, 2023
+
+  * Lambda lifting chapter first draft finished.
+  * Update `sphinx-exec-directive
+    <https://github.com/yongrenjie/sphinx-exec-directive>`_ documentation on
+    ways to run Haskell code.
+
+* January, 2023
+
+  * Patched `sphinx-exec-directive
+    <https://github.com/yongrenjie/sphinx-exec-directive>`_ to run Haskell code
+    with ``runghc``, ``ghci`` and a ``cabal`` or ``stack`` target.
+
+* December, 2022
+
+  * Weigh chapter first draft finished.
 
 * November, 2022
 
