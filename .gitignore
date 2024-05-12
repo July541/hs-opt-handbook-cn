@@ -13,3 +13,5 @@ _build
 # nix stuff
 .direnv/
 result
+
+.venv
