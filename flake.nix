@@ -7,16 +7,15 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    sphinx-exec-haskell.url = "github:doyougnu/sphinx-exec-haskell";
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat, sphinx-exec-haskell }:
+  outputs = { self, nixpkgs, flake-utils, flake-compat }:
     let press-theme-overlay = final: prev: {
-          sphinx-press-theme = prev.python310Packages.buildPythonPackage rec {
+          sphinx-press-theme = prev.python311Packages.buildPythonPackage rec {
             pname = "sphinx_press_theme";
             version = "0.8.0";
 
-            src = prev.python3Packages.fetchPypi {
+            src = prev.python311Packages.fetchPypi {
               inherit pname;
               inherit version;
               sha256 = "sha256-KITKqx3AHssR0VjU3W0xeeLdl81IUWx2nMJzYCcuYrM=";
@@ -26,35 +25,40 @@
         };
 
         copy-button-overlay = final: prev: {
-          sphinx-copybutton = prev.python310Packages.buildPythonPackage rec {
+          sphinx-copybutton = prev.python311Packages.buildPythonPackage rec {
             pname = "sphinx-copybutton";
-            version = "0.5.0";
+            version = "0.5.2";
 
-            src = prev.python3Packages.fetchPypi {
+            src = prev.python311Packages.fetchPypi {
               inherit pname;
               inherit version;
-              sha256 = "sha256-oMBZ2q3QPCe6dQ2lNKkqY+ejanc23PaE8m7jRhmXh/Y=";
+              sha256 = "sha256-TPF8gvuWRtG8nKkqwoCBOjtgXYxCEiX9mRMVQQPuH70=";
             };
             propagatedBuildInputs = [ prev.sphinx ];
           };
         };
 
         sphinx-exec-directive-overlay = final: prev: {
-          sphinx-exec-directive = prev.python310Packages.buildPythonPackage rec {
+          sphinx-exec-directive = prev.python311Packages.buildPythonPackage rec {
             pname   = "sphinx-exec-directive";
             version = "0.6";
 
-            src = prev.python310Packages.fetchPypi {
+            src = prev.python311Packages.fetchPypi {
               inherit pname;
               inherit version;
               sha256 = "sha256-lMo4QILqt6pEiIatN/LNxhiUGX3ziSWV+bfRahzmZWU=";
             };
-            propagatedBuildInputs = [ prev.sphinx prev.python310Packages.matplotlib ];
+            propagatedBuildInputs = [ prev.sphinx prev.python311Packages.matplotlib ];
           };
         };
 
-        sphinx-exec-haskell-overlay = system: final: prev: {
-          sphinx-exec-haskell = sphinx-exec-haskell.packages.${system}.default;
+        tex-overlay = final: prev: {
+            tex-env = prev.texlive.combine {
+              inherit (prev.texlive)
+                scheme-basic collection-xetex fncychap titlesec tabulary varwidth
+                framed capt-of wrapfig needspace dejavu-otf helvetic upquote
+                memorygraphs;
+            };
         };
 
     in
@@ -65,16 +69,9 @@
                 overlays = [ press-theme-overlay
                              copy-button-overlay
                              sphinx-exec-directive-overlay
-                             (sphinx-exec-haskell-overlay system)
+                             tex-overlay
                            ];
               } ;
-
-            ourTexLive = pkgs.texlive.combine {
-              inherit (pkgs.texlive)
-                scheme-medium collection-xetex fncychap titlesec tabulary varwidth
-                framed capt-of wrapfig needspace dejavu-otf helvetic upquote;
-            };
-
             ## TODO use this
             fonts = pkgs.makeFontsConf { fontDirectories = [ pkgs.dejavu_fonts ]; };
 

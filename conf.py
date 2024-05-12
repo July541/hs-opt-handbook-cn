@@ -13,6 +13,8 @@
 import os
 import sys
 import time
+from datetime import datetime
+from sphinx.util.i18n import format_date
 
 ## FIXME for the time being I've cloned relevant extensions into a submodule,
 ## and then hard linked the __init__.py file until my changes can be upstreamed
@@ -22,8 +24,9 @@ sys.path.insert(0, os.path.abspath('extensions'))
 
 project = 'Haskell Optimization Handbook'
 html_title = 'Haskell Optimization Handbook'
-# FIXME: https://github.com/input-output-hk/hs-opt-handbook.github.io/issues/58
-copyright = u'2022-%s, Jeffrey Young (doyougnu)' % time.strftime('%Y')
+# FIXME: https://github.com/haskellFoundation/hs-opt-handbook.github.io/issues/58
+now = datetime.now()
+copyright = u'2022-%s, Jeffrey Young (doyougnu)' % now.year
 author = 'Jeffrey Young (doyugnu)'
 
 # The full version, including alpha/beta/rc tags
@@ -45,19 +48,37 @@ extensions = [ 'sphinx.ext.mathjax'
                                          ## underscore
              , 'sphinxcontrib.bibtex'
              , 'sphinx_copybutton'
-             # , 'sphinxcontrib.execHS.ext'
+             , 'sphinxcontrib.tikz'
              , 'sphinx_exec_directive'
+             , 'conceptual_admonitions'
              ]
 
 # flags
-todo_include_todos = False
+todo_include_todos = True
 todo_link_only     = False
 autosectionlabel_prefix_document = True
+
+# tikz support
+tikz_proc_suite = "pdf2svg"
+tikz_tikzlibraries = "arrows, arrows.meta, decorations.pathreplacing"
+tikz_latex_preamble = r"""
+\newcommand{\MemoryLayout}[1]{
+     \draw[thick](0,0)--++(0,3)node[above]{$0$};
+     \foreach \pt/\col/\lab [remember=\pt as \lastpt (initially 0)] in {#1} {
+       \draw[fill=\col]({\lastpt},0) rectangle ++(\pt,2);
+       \if\lab\relax\relax\else
+         \draw[thick,decorate, decoration={brace,amplitude=4mm}]
+            (\pt,-0.4)--node[below=4mm]{\lab} (\lastpt,-0.4);
+       \fi
+     }
+}
+"""
 
 ## global links in the book that share a prefix that we've named.
 extlinks = {'userGuide': ('https://downloads.haskell.org/~ghc/9.2.4/docs/html/users_guide/%s', '%s'),
             'ghcWiki': ('https://gitlab.haskell.org/ghc/ghc/wikis/%s', '#%s'),
             'haskellPerf': ('https://github.com/haskell-perf/%s', '%s'),
+            'ghcSource': ('https://gitlab.haskell.org/ghc/ghc/-/blob/master/%s', '#%s')
             }
 
 # prolog for colored text and global variables
@@ -95,7 +116,7 @@ exclude_patterns = [ '_build'
 html_theme      = "press"
 html_theme_options = { "body_max_width": 1600 }
 html_static_path = ['_static', 'code']
-html_css_files = [ 'css/s4defs-roles.css', 'css/iframe.css' ]
+html_css_files = [ 'css/s4defs-roles.css', 'css/iframe.css', 'css/admonitions.css' ]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -106,3 +127,7 @@ mathjax_path = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 # bibtex file
 bibtex_bibfiles = ['bib/book.bib']
 bibtex_default_style = 'unsrt'
+
+def setup(app):
+    for sheet in html_css_files:
+        app.add_css_file(sheet)

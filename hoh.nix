@@ -3,40 +3,46 @@
 }:
 
 let
-   pythonInputs = with pkgs.python310Packages; [
+   pythonInputs = with pkgs.python311Packages; [
      sphinx
      sphinxcontrib-bibtex
      sphinxcontrib-tikz
+     sphinx-autobuild
+     pip
      # marked as broken in nixpkgs unfortunately
      # sphinx-book-theme
      ## until we have a reason for tex leave this commented out for CI
-     # ourTexLive
    ];
    nonPythonInputs = with pkgs; [ sphinx-press-theme # this comes from the overlay
                                   sphinx-copybutton  # this comes from the overlay
-                                  pandoc
+                                  # pandoc
                                   # change once extension fixes are upstreamed
-                                  # sphinx-exec-directive
+                                  sphinx-exec-directive
                                   rst2html5
-                                  sphinx-autobuild
-                                  sphinx-exec-haskell
                                   ghc
                                   cabal-install
+                                  git
+                                  tex-env
                                 ];
 in
 pkgs.stdenv.mkDerivation {
    pname   = "hoh";
    version = "0.0.1";
    src     = ./.;
-   propagatedBuildInputs = pythonInputs ++ nonPythonInputs;
+   phases = [ "unpackPhase" "preBuild" "buildPhase" "installPhase"];
+   buildInputs = pythonInputs ++ nonPythonInputs;
 
    preBuild = ''
    unset SOURCE_DATE_EPOCH
-   SOURCE_DATE_EPOCH=$(date +%s)
+   export CABAL_DIR=$(mktemp -d)
+   cabal user-config update
    '';
 
    buildPhase = ''
    runHook preBuild
+   export PATH="${pkgs.lib.makeBinPath (pythonInputs ++ nonPythonInputs)}:$PATH";
+   SOURCE_DATE_EPOCH="$(${pkgs.coreutils}/bin/date '+%s')"
+   make clean
    make ${target} SPHINXOPTS="-W"
    touch "_build/.nojekyll"
    touch "_build/html/.nojekyll"
